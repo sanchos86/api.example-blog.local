@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{UserController, CategoryController};
+use App\Http\Controllers\{UserController, CategoryController, TagController};
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,4 +24,12 @@ Route::group(['prefix' => 'categories'], function () {
     Route::post('/', [CategoryController::class, 'store']);
     Route::put('/{category}', [CategoryController::class, 'update']);
     Route::delete('/{category}', [CategoryController::class, 'destroy']);
+});
+
+Route::group(['prefix' => 'tags'], function () {
+    Route::get('/', [TagController::class, 'index']);
+    Route::get('/{tag}', [TagController::class, 'show']);
+    Route::post('/', [TagController::class, 'store']);
+    Route::put('/{tag}', [TagController::class, 'update']);
+    Route::delete('/{tag}', [TagController::class, 'destroy']);
 });

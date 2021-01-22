@@ -16,7 +16,8 @@ class DatabaseSeeder extends Seeder
     {
         User::factory()->create(['role' => UserRole::ADMIN]);
         $this->call([
-            CategorySeeder::class
+            CategorySeeder::class,
+            TagSeeder::class,
         ]);
     }
 }
