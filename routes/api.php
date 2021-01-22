@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{UserController, CategoryController, TagController};
+use App\Http\Controllers\{UserController, CategoryController, TagController, AuthController};
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,4 +32,10 @@ Route::group(['prefix' => 'tags'], function () {
     Route::post('/', [TagController::class, 'store']);
     Route::put('/{tag}', [TagController::class, 'update']);
     Route::delete('/{tag}', [TagController::class, 'destroy']);
+});
+
+Route::group(['prefix' => 'auth'], function () {
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('refresh', [AuthController::class, 'refresh']);
 });
