@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{UserController, CategoryController, TagController, AuthController};
+use App\Http\Controllers\{UserController, CategoryController, TagController, AuthController, PostController};
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,4 +38,13 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);
+});
+
+Route::group(['prefix' => 'posts'], function () {
+    Route::get('/', [PostController::class, 'index']);
+    Route::get('/{slug}', [PostController::class, 'show']);
+    Route::post('/', [PostController::class, 'store']);
+    Route::put('/{post}', [PostController::class, 'update']);
+    Route::patch('/{post}/publish', [PostController::class, 'publish']);
+    Route::delete('/{post}', [PostController::class, 'destroy']);
 });
