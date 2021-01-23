@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CategoryRequest extends FormRequest
 {
@@ -25,7 +26,9 @@ class CategoryRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'min:3'],
-            'slug' => ['required', 'string', 'min:3', 'unique:categories,slug'],
+            'slug' => ['required', 'string', 'min:3', Rule::unique('categories')->where(function ($query) {
+                return $this->category ? $query->where('id', '!=', $this->category->id) : $query;
+            })],
         ];
     }
 }

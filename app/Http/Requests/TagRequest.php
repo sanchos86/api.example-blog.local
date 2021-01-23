@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class TagRequest extends FormRequest
 {
@@ -25,7 +26,9 @@ class TagRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'min:3'],
-            'slug' => ['required', 'string', 'min:3', 'unique:tags,slug'],
+            'slug' => ['required', 'string', Rule::unique('tags')->where(function ($query) {
+                return $this->tag ? $query->where('id', '!=', $this->tag->id) : $query;
+            })],
         ];
     }
 }
