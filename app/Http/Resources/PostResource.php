@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use DateTime;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Request;
 use App\Models\Category;
@@ -15,6 +16,7 @@ use App\Models\Category;
  * @property string slug
  * @property Category category
  * @property DateTime|null published_at
+ * @property Collection tags
  *
  * @package App\Http\Resources
  */
@@ -34,7 +36,8 @@ class PostResource extends JsonResource
             'text' => $this->text,
             'slug' => $this->slug,
             'category' => new CategoryResource($this->category),
-            'publishedAt' => $this->published_at
+            'publishedAt' => $this->published_at,
+            'tags' => TagResource::collection($this->tags),
         ];
     }
 }

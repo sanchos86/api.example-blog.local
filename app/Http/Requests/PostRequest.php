@@ -31,7 +31,8 @@ class PostRequest extends FormRequest
                 return $this->post ? $query->where('id', '!=', $this->post->id) : $query;
             })],
             'publish' => ['required', 'boolean'],
-            'category_id' => ['required', 'integer', 'exists:categories,id']
+            'category_id' => ['required', 'integer', 'exists:categories,id'],
+            'tags' => ['array', 'exists:tags,id'],
         ];
     }
 }

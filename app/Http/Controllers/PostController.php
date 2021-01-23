@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Post, Category};
+use App\Models\{Post, Category, Tag};
 use Illuminate\Http\Request;
 use App\Http\Requests\{PostRequest, PostPublishRequest};
 use App\Http\Resources\PostResource;
@@ -29,6 +29,7 @@ class PostController extends Controller
     {
         $isAdmin = auth()->check() && auth()->user()->isAdmin();
         $categorySlug = $request->get('category');
+        $tagSlug = $request->get('tag');
         $perPage = is_numeric($request->get('per-page')) ? $request->get('per-page') : null;
 
         $query = $isAdmin ? Post::query() : Post::whereNotNull('published_at');
@@ -37,6 +38,13 @@ class PostController extends Controller
             $category = Category::where('slug', $categorySlug)->first();
             if ($category) {
                 $query->where('category_id', $category->id);
+            }
+        } else if ($tagSlug) {
+            $tag = Tag::where('slug', $tagSlug)->first();
+            if ($tag) {
+                $query->whereHas('tags', function ($query) use ($tag) {
+                    $query->where('tag_id', $tag->id);
+                });
             }
         }
 
@@ -61,6 +69,7 @@ class PostController extends Controller
         $post = new Post($params);
         $post->togglePublish($request->get('publish'));
         $post->save();
+        $post->tags()->attach($request->get('tags'));
 
         return new PostResource($post);
     }
@@ -100,6 +109,7 @@ class PostController extends Controller
 
         $post->update($params);
         $post->togglePublish($request->get('publish'));
+        $post->tags()->sync($request->get('tags'));
 
         return new PostResource($post);
     }
