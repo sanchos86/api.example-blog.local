@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Post, Category, Tag};
+use App\Models\{Post, Category, Tag, PostView};
 use Illuminate\Http\Request;
 use App\Http\Requests\{PostRequest, PostPublishRequest};
 use App\Http\Resources\PostResource;
@@ -67,9 +67,11 @@ class PostController extends Controller
         ]);
 
         $post = new Post($params);
+        $postView = new PostView();
         $post->togglePublish($request->get('publish'));
         $post->save();
         $post->tags()->attach($request->get('tags'));
+        $post->postView()->save($postView);
 
         return new PostResource($post);
     }
@@ -88,6 +90,12 @@ class PostController extends Controller
             $query->whereNotNull('published_at');
         }
         $post = $query->firstOrFail();
+        if (!$isAdmin) {
+            $counter = $post->postView->counter + 1;
+            $post->postView->update([
+                'counter' => $counter
+            ]);
+        }
         return new PostResource($post);
     }
 
