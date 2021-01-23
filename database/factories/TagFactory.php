@@ -23,7 +23,7 @@ class TagFactory extends Factory
     {
         return [
             'name' => $this->faker->word,
-            'slug' => $this->faker->unique()->word,
+            'slug' => $this->faker->unique()->slug,
         ];
     }
 }
