@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Request;
 use App\Models\{Category, PostView};
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Class PostResource
@@ -18,6 +19,7 @@ use App\Models\{Category, PostView};
  * @property DateTime|null published_at
  * @property Collection tags
  * @property PostView postView
+ * @property string src
  *
  * @package App\Http\Resources
  */
@@ -31,6 +33,8 @@ class PostResource extends JsonResource
      */
     public function toArray($request): array
     {
+        $src = Storage::exists($this->src) ? Storage::url($this->src) : null;
+
         return [
             'id' => $this->id,
             'title' => $this->title,
@@ -40,6 +44,7 @@ class PostResource extends JsonResource
             'publishedAt' => $this->published_at,
             'tags' => TagResource::collection($this->tags),
             'postViews' => $this->postView->counter,
+            'src' => $src,
         ];
     }
 }

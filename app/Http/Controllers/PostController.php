@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\{Post, Category, Tag, PostView};
 use Illuminate\Http\Request;
-use App\Http\Requests\{PostRequest, PostPublishRequest};
+use App\Http\Requests\{PostCreateRequest, PostPublishRequest, PostUpdateRequest};
 use App\Http\Resources\PostResource;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\JsonResponse;
@@ -54,10 +54,10 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  PostRequest  $request
+     * @param  PostCreateRequest  $request
      * @return PostResource
      */
-    public function store(PostRequest $request): PostResource
+    public function store(PostCreateRequest $request): PostResource
     {
         $params = $request->only([
             'title',
@@ -65,6 +65,8 @@ class PostController extends Controller
             'slug',
             'category_id',
         ]);
+        $src = $request->file('picture')->store(null);
+        $params['src'] = $src;
 
         $post = new Post($params);
         $postView = new PostView();
@@ -102,11 +104,11 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  PostRequest $request
+     * @param  PostUpdateRequest $request
      * @param  Post $post
      * @return PostResource
      */
-    public function update(PostRequest $request, Post $post): PostResource
+    public function update(PostUpdateRequest $request, Post $post): PostResource
     {
         $params = $request->only([
             'title',
@@ -115,8 +117,13 @@ class PostController extends Controller
             'category_id',
         ]);
 
-        $post->update($params);
+        if ($request->file('picture')) {
+            $src = $request->file('picture')->store(null);
+            $params['src'] = $src;
+        }
+
         $post->togglePublish($request->get('publish'));
+        $post->update($params);
         $post->tags()->sync($request->get('tags'));
 
         return new PostResource($post);

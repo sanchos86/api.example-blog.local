@@ -20,6 +20,7 @@ class CreatePostsTable extends Migration
             $table->string('slug')->unique();
             $table->unsignedBigInteger('category_id');
             $table->timestamp('published_at')->nullable();
+            $table->string('src');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
 

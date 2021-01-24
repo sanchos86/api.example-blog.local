@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class PostRequest extends FormRequest
+class PostCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,12 +26,11 @@ class PostRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'min:6'],
             'text' => ['required', 'string'],
-            'slug' => ['required', 'string', 'min:3', Rule::unique('posts')->where(function ($query) {
-                return $this->post ? $query->where('id', '!=', $this->post->id) : $query;
-            })],
+            'slug' => ['required', 'string', 'min:3', 'unique:posts,slug'],
             'publish' => ['required', 'boolean'],
             'category_id' => ['required', 'integer', 'exists:categories,id'],
             'tags' => ['array', 'exists:tags,id'],
+            'picture' => ['required', 'file'],
         ];
     }
 }
