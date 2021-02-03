@@ -5,15 +5,11 @@ RUN apt-get update && \
         curl \
         git \
         zip \
-        unzip \
-        libfreetype6-dev \
-        libjpeg62-turbo-dev \
-        libpng-dev && \
+        unzip && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN docker-php-ext-configure bcmath --enable-bcmath && \
-    docker-php-ext-configure gd --with-freetype --with-jpeg && \
-    docker-php-ext-install -j$(nproc) bcmath pdo_mysql gd
+    docker-php-ext-install -j$(nproc) bcmath pdo_mysql
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
     composer --version

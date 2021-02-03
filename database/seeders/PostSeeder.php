@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\{Category, Post};
-use Illuminate\Http\UploadedFile;
 
 class PostSeeder extends Seeder
 {
@@ -19,9 +18,7 @@ class PostSeeder extends Seeder
 
         for ($i = 0; $i < 25; $i++) {
             $categoryId = $categories[array_rand($categories)];
-            $image = UploadedFile::fake()->image('image_' . $i . '.png', 160, 90);
-            $src = $image->store(null);
-            Post::factory()->create(['category_id' => $categoryId, 'src' => $src]);
+            Post::factory()->create(['category_id' => $categoryId]);
         }
     }
 }
