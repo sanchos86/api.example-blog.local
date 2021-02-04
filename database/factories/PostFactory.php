@@ -26,6 +26,7 @@ class PostFactory extends Factory
             'text' => $this->faker->text,
             'slug' => $this->faker->unique()->slug,
             'published_at' => rand(0, 10) > 5 ? date('Y-m-d') : null,
+            'src' => ''
         ];
     }
 }
