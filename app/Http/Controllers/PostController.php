@@ -16,6 +16,7 @@ class PostController extends Controller
         $this->middleware('auth')->except([
             'index',
             'show',
+            'getPopular'
         ]);
     }
 
@@ -151,5 +152,14 @@ class PostController extends Controller
     {
         $post->togglePublish($request->get('publish'));
         return new PostResource($post);
+    }
+
+    /**
+     * @return AnonymousResourceCollection
+     */
+    public function getPopular(): AnonymousResourceCollection
+    {
+        $posts = Post::join('post_views', 'posts.id', '=', 'post_views.post_id')->orderBy('post_views.counter', 'desc')->take(5)->get();
+        return PostResource::collection($posts);
     }
 }
