@@ -5,7 +5,8 @@ services:
       dockerfile: docker/production/php/Dockerfile
       context: .
     volumes:
-    - ./storage/app/public:/var/www/public/storage
+    - ./storage/app/public:/var/www/api.web-artisan.ru/public/storage
+    - ./storage:/var/www/api.web-artisan.ru/storage
     restart: unless-stopped
   nginx:
     container_name: nginx
