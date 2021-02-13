@@ -31,7 +31,7 @@ class PostController extends Controller
         $isAdmin = auth()->check() && auth()->user()->isAdmin();
         $categorySlug = $request->get('category');
         $tagSlug = $request->get('tag');
-        $perPage = is_numeric($request->get('per-page')) ? $request->get('per-page') : null;
+        $perPage = is_numeric($request->get('perPage')) ? $request->get('perPage') : null;
 
         $query = $isAdmin ? Post::query() : Post::whereNotNull('published_at');
 
