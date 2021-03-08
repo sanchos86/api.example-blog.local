@@ -40,5 +40,6 @@ class Post extends Model
     public function togglePublish(bool $publish): void
     {
         $this->published_at = $publish ? date('Y-m-d') : null;
+        $this->save();
     }
 }
