@@ -49,7 +49,7 @@ class PostController extends Controller
             }
         }
 
-        return PostResource::collection($query->paginate($perPage));
+        return PostResource::collection($query->latest()->paginate($perPage));
     }
 
     /**
