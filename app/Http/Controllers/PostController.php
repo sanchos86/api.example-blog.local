@@ -159,7 +159,7 @@ class PostController extends Controller
      */
     public function getPopular(): AnonymousResourceCollection
     {
-        $posts = Post::join('post_views', 'posts.id', '=', 'post_views.post_id')->orderBy('post_views.counter', 'desc')->take(5)->get();
+        $posts = Post::whereNotNull('published_at')->join('post_views', 'posts.id', '=', 'post_views.post_id')->orderBy('post_views.counter', 'desc')->take(5)->get();
         return PostResource::collection($posts);
     }
 }
