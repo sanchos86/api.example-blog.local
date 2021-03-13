@@ -65,6 +65,7 @@ class PostController extends Controller
             'text',
             'slug',
             'category_id',
+            'plain_text'
         ]);
         $src = $request->file('picture')->store(null);
         $params['src'] = $src;
@@ -116,6 +117,7 @@ class PostController extends Controller
             'text',
             'slug',
             'category_id',
+            'plain_text'
         ]);
 
         if ($request->file('picture')) {

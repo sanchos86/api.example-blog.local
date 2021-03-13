@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Storage;
  * @property Collection tags
  * @property PostView postView
  * @property string src
+ * @property string plain_text
  *
  * @package App\Http\Resources
  */
@@ -45,6 +46,7 @@ class PostResource extends JsonResource
             'tags' => TagResource::collection($this->tags),
             'postViews' => $this->postView->counter,
             'src' => $src,
+            'plainText' => $this->plain_text
         ];
     }
 }

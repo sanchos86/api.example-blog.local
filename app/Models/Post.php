@@ -17,6 +17,7 @@ class Post extends Model
         'category_id',
         'published_at',
         'src',
+        'plain_text'
     ];
 
     public function category(): BelongsTo
