@@ -1,6 +1,6 @@
 FROM php:7.4-fpm
 
-ENV APP_FOLDER=/var/www/api.web-artisan.ru
+ARG app_folder
 
 RUN apt-get update && \
     apt-get install -y \
@@ -16,10 +16,10 @@ RUN docker-php-ext-configure bcmath --enable-bcmath && \
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
     composer --version
 
-COPY . $APP_FOLDER
+COPY . $app_folder
 
-WORKDIR $APP_FOLDER
+WORKDIR $app_folder
 
 RUN composer install --optimize-autoloader --no-dev
 
-RUN chown -R www-data:www-data $APP_FOLDER/storage $APP_FOLDER/bootstrap/cache
+RUN chown -R www-data:www-data storage/ bootstrap/cache/
