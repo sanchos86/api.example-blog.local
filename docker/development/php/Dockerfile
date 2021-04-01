@@ -17,6 +17,8 @@ RUN docker-php-ext-configure bcmath --enable-bcmath && \
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
     composer --version
 
-RUN useradd -G www-data,root -u $uid $user
+RUN useradd -G www-data,root -u $uid -d /home/$user $user
+RUN mkdir -p /home/$user/.composer && \
+    chown -R $user:$user /home/$user
 
 USER $user
