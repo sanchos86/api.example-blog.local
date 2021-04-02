@@ -5,7 +5,7 @@ services:
       dockerfile: docker/production/php/Dockerfile
       context: .
       args:
-        app_folder: /var/www/api.web-artisan.ru
+        app_folder: '/var/www/api.web-artisan.ru'
     volumes:
     - ./storage/app/public:/var/www/api.web-artisan.ru/public/storage
     - ./storage:/var/www/api.web-artisan.ru/storage
@@ -16,7 +16,7 @@ services:
       dockerfile: docker/production/nginx/Dockerfile
       context: .
       args:
-        app_folder: /var/www/api.web-artisan.ru
+        app_folder: '/var/www/api.web-artisan.ru'
     volumes_from:
       - app
     restart: unless-stopped
