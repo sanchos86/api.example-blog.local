@@ -18,7 +18,7 @@ services:
       context: .
       args:
         app_folder: '/var/www/api.web-artisan.ru'
-    volumes_from:
+    volumes:
       - ./storage/app/public:/var/www/api.web-artisan.ru/public/storage
       - ./storage:/var/www/api.web-artisan.ru/storage
     restart: unless-stopped
