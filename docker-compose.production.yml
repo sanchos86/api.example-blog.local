@@ -7,8 +7,9 @@ services:
       args:
         app_folder: '/var/www/api.web-artisan.ru'
     volumes:
-    - ./storage/app/public:/var/www/api.web-artisan.ru/public/storage
-    - ./storage:/var/www/api.web-artisan.ru/storage
+      - ./storage/app/public:/var/www/api.web-artisan.ru/public/storage
+      - ./storage:/var/www/api.web-artisan.ru/storage
+      - ./.env:/var/www/api.web-artisan.ru/.env
     restart: unless-stopped
   nginx:
     container_name: nginx
@@ -18,8 +19,9 @@ services:
       args:
         app_folder: '/var/www/api.web-artisan.ru'
     volumes_from:
-      - app
+      - ./storage/app/public:/var/www/api.web-artisan.ru/public/storage
+      - ./storage:/var/www/api.web-artisan.ru/storage
     restart: unless-stopped
     ports:
-    - 80:80
-    #- 443:443
+      - 80:80
+      #- 443:443
