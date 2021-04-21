@@ -11,6 +11,7 @@ services:
       - ./storage:/var/www/api.web-artisan.ru/storage
       - ./.env:/var/www/api.web-artisan.ru/.env
     restart: unless-stopped
+
   nginx:
     container_name: nginx
     build:

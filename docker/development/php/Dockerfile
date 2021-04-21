@@ -8,6 +8,7 @@ RUN apt-get update && \
         curl \
         git \
         zip \
+        nano \
         unzip && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
