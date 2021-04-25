@@ -22,7 +22,16 @@ services:
     volumes:
       - ./storage/app/public:/var/www/api.web-artisan.ru/public/storage
       - ./storage:/var/www/api.web-artisan.ru/storage
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
     restart: unless-stopped
     ports:
       - 80:80
-      #- 443:443
+      - 443:443
+
+  certbot:
+    container_name: certbot
+    image: certbot/certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
