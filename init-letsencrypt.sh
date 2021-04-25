@@ -43,11 +43,11 @@ docker-compose -f docker-compose.production.yml up --force-recreate -d nginx
 echo
 
 echo "### Deleting dummy certificate for $domains ..."
-#docker-compose -f docker-compose.production.yml run --rm --entrypoint "\
-#  rm -Rf /etc/letsencrypt/live/$domains && \
-#  rm -Rf /etc/letsencrypt/archive/$domains && \
-#  rm -Rf /etc/letsencrypt/renewal/$domains.conf" certbot
-#echo
+docker-compose -f docker-compose.production.yml run --rm --entrypoint "\
+  rm -Rf /etc/letsencrypt/live/$domains && \
+  rm -Rf /etc/letsencrypt/archive/$domains && \
+  rm -Rf /etc/letsencrypt/renewal/$domains.conf" certbot
+echo
 
 
 echo "### Requesting Let's Encrypt certificate for $domains ..."
@@ -66,15 +66,15 @@ esac
 # Enable staging mode if needed
 if [ $staging != "0" ]; then staging_arg="--staging"; fi
 
-#docker-compose -f docker-compose.production.yml run --rm --entrypoint "\
-#  certbot certonly --webroot -w /var/www/certbot \
-#    $staging_arg \
-#    $email_arg \
-#    $domain_args \
-#    --rsa-key-size $rsa_key_size \
-#    --agree-tos \
-#    --force-renewal" certbot
-#echo
-#
-#echo "### Reloading nginx ..."
-#docker-compose -f docker-compose.production.yml exec nginx nginx -s reload
+docker-compose -f docker-compose.production.yml run --rm --entrypoint "\
+  certbot certonly --webroot -w /var/www/certbot \
+    $staging_arg \
+    $email_arg \
+    $domain_args \
+    --rsa-key-size $rsa_key_size \
+    --agree-tos \
+    --force-renewal" certbot
+echo
+
+echo "### Reloading nginx ..."
+docker-compose -f docker-compose.production.yml exec nginx nginx -s reload
