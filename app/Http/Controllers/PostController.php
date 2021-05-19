@@ -120,7 +120,7 @@ class PostController extends Controller
             'plain_text'
         ]);
 
-        if ($request->file('picture')) {
+        if ($request->hasFile('picture')) {
             $src = $request->file('picture')->store(null);
             $params['src'] = $src;
         }
