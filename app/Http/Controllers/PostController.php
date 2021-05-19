@@ -28,7 +28,7 @@ class PostController extends Controller
      */
     public function index(Request $request): AnonymousResourceCollection
     {
-        $isAdmin = auth()->check() && auth()->user()->isAdmin();
+        $isAdmin = optional(auth()->user())->isAdmin();
         $categorySlug = $request->query('category');
         $tagSlug = $request->query('tag');
         $perPage = is_numeric($request->query('perPage')) ? $request->query('perPage') : null;
@@ -88,7 +88,7 @@ class PostController extends Controller
      */
     public function show(string $slug): PostResource
     {
-        $isAdmin = auth()->check() && auth()->user()->isAdmin();
+        $isAdmin = optional(auth()->user())->isAdmin();
         $query = Post::where('slug', $slug);
         if (!$isAdmin) {
             $query->whereNotNull('published_at');
