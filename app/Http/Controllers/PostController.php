@@ -29,9 +29,9 @@ class PostController extends Controller
     public function index(Request $request): AnonymousResourceCollection
     {
         $isAdmin = auth()->check() && auth()->user()->isAdmin();
-        $categorySlug = $request->get('category');
-        $tagSlug = $request->get('tag');
-        $perPage = is_numeric($request->get('perPage')) ? $request->get('perPage') : null;
+        $categorySlug = $request->query('category');
+        $tagSlug = $request->query('tag');
+        $perPage = is_numeric($request->query('perPage')) ? $request->query('perPage') : null;
 
         $query = $isAdmin ? Post::query() : Post::whereNotNull('published_at');
 
