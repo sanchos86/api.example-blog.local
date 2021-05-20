@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\{Post, Category, Tag, PostView};
 use Illuminate\Http\Request;
-use App\Http\Requests\{PostCreateRequest, PostPublishRequest, PostUpdateRequest};
+use App\Http\Requests\Post\{PostCreateRequest, PostPublishRequest, PostUpdateRequest};
 use App\Http\Resources\PostResource;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\JsonResponse;
