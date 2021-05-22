@@ -30,11 +30,6 @@ class Post extends Model
         return $this->belongsToMany(Tag::class);
     }
 
-    public function postView(): HasOne
-    {
-        return $this->hasOne(PostView::class);
-    }
-
     /**
      * @param bool $publish
      */

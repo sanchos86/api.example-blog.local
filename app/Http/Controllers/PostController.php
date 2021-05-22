@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Post, Category, Tag, PostView};
+use App\Models\{Post, Category, Tag};
 use Illuminate\Http\Request;
 use App\Http\Requests\Post\{PostCreateRequest, PostPublishRequest, PostUpdateRequest};
 use App\Http\Resources\PostResource;
@@ -16,7 +16,7 @@ class PostController extends Controller
         $this->middleware('auth')->except([
             'index',
             'show',
-            'getPopular'
+            'getLatest'
         ]);
     }
 
@@ -71,11 +71,9 @@ class PostController extends Controller
         $params['src'] = $src;
 
         $post = new Post($params);
-        $postView = new PostView();
         $post->togglePublish($request->get('publish'));
         $post->save();
         $post->tags()->attach($request->get('tags'));
-        $post->postView()->save($postView);
 
         return new PostResource($post);
     }
@@ -94,12 +92,6 @@ class PostController extends Controller
             $query->whereNotNull('published_at');
         }
         $post = $query->firstOrFail();
-        if (!$isAdmin) {
-            $counter = $post->postView->counter + 1;
-            $post->postView->update([
-                'counter' => $counter
-            ]);
-        }
         return new PostResource($post);
     }
 
@@ -159,9 +151,9 @@ class PostController extends Controller
     /**
      * @return AnonymousResourceCollection
      */
-    public function getPopular(): AnonymousResourceCollection
+    public function getLatest(): AnonymousResourceCollection
     {
-        $posts = Post::whereNotNull('published_at')->join('post_views', 'posts.id', '=', 'post_views.post_id')->orderBy('post_views.counter', 'desc')->take(5)->get();
+        $posts = Post::whereNotNull('published_at')->orderByDesc('id')->take(5)->get();
         return PostResource::collection($posts);
     }
 }

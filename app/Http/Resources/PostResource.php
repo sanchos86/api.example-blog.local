@@ -6,7 +6,7 @@ use DateTime;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Request;
-use App\Models\{Category, PostView};
+use App\Models\{Category};
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\Storage;
  * @property Category category
  * @property DateTime|null published_at
  * @property Collection tags
- * @property PostView postView
  * @property string src
  * @property string plain_text
  *
@@ -44,7 +43,6 @@ class PostResource extends JsonResource
             'category' => new CategoryResource($this->category),
             'publishedAt' => $this->published_at,
             'tags' => TagResource::collection($this->tags),
-            'postViews' => $this->postView->counter,
             'src' => $src,
             'plainText' => $this->plain_text
         ];
