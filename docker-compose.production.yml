@@ -8,7 +8,7 @@ services:
         app_folder: '/var/www/api.web-artisan.ru'
     volumes:
       - ./storage/app/public:/var/www/api.web-artisan.ru/public/storage
-      - ./storage:/var/www/api.web-artisan.ru/storage
+      - ./storage/app:/var/www/api.web-artisan.ru/storage/app
       - ./.env:/var/www/api.web-artisan.ru/.env
     restart: unless-stopped
 
@@ -21,7 +21,7 @@ services:
         app_folder: '/var/www/api.web-artisan.ru'
     volumes:
       - ./storage/app/public:/var/www/api.web-artisan.ru/public/storage
-      - ./storage:/var/www/api.web-artisan.ru/storage
+      - ./storage/app:/var/www/api.web-artisan.ru/storage/app
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
     restart: unless-stopped
