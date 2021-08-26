@@ -11,13 +11,16 @@ RUN apt-get update && \
         unzip && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN docker-php-ext-configure bcmath --enable-bcmath && \
-    docker-php-ext-install -j$(nproc) bcmath pdo_mysql
+RUN docker-php-ext-install -j$(nproc) bcmath pdo_mysql opcache && \
+    docker-php-ext-configure bcmath --enable-bcmath && \
+    docker-php-ext-configure opcache --enable-opcache
+
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
     composer --version
 
 COPY . $app_folder
+COPY ./docker/production/php/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
 WORKDIR $app_folder
 
