@@ -1,1 +1,1 @@
-### api.web-artisan.ru
+# api.example-blog.local

@@ -5,11 +5,11 @@ services:
       dockerfile: docker/production/php/Dockerfile
       context: .
       args:
-        app_folder: '/var/www/api.web-artisan.ru'
+        app_folder: '/var/www/api.example-blog.local'
     volumes:
-      - ./storage/app/public:/var/www/api.web-artisan.ru/public/storage
-      - ./storage/app:/var/www/api.web-artisan.ru/storage/app
-      - ./.env:/var/www/api.web-artisan.ru/.env
+      - ./storage/app/public:/var/www/api.example-blog.local/public/storage
+      - ./storage/app:/var/www/api.example-blog.local/storage/app
+      - ./.env:/var/www/api.example-blog.local/.env
     restart: unless-stopped
 
   nginx:
@@ -18,10 +18,10 @@ services:
       dockerfile: docker/production/nginx/Dockerfile
       context: .
       args:
-        app_folder: '/var/www/api.web-artisan.ru'
+        app_folder: '/var/www/api.example-blog.local'
     volumes:
-      - ./storage/app/public:/var/www/api.web-artisan.ru/public/storage
-      - ./storage/app:/var/www/api.web-artisan.ru/storage/app
+      - ./storage/app/public:/var/www/api.example-blog.local/public/storage
+      - ./storage/app:/var/www/api.example-blog.local/storage/app
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
     restart: unless-stopped
